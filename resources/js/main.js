@@ -1,5 +1,3 @@
-
-// 현재시간 실시간으로 출력
 let renderCurrentTime = () => {
    
    	let now = new Date();
@@ -15,6 +13,7 @@ let renderCurrentTime = () => {
 
 // 
 let renderUser = (event) => {
+	//HTML요소의 기본 이벤트 중지
 	event.preventDefault();
 	
    	let input = document.querySelector('.inp_username').value;
@@ -23,6 +22,7 @@ let renderUser = (event) => {
 }
 
 let registSchedule = (event) => {
+	//HTML요소의 기본 이벤트 중지
 	event.preventDefault();
 	
    	let prevTodo = localStorage.getItem('todo');
@@ -75,11 +75,14 @@ let renderSchedule = (todoList) => {
 
 }
 
-let renderNextPage = () => {
-   	let curPage = Number(document.querySelector('#currentPage').textContent);
+let renderPagination = (event) =>{
+	let dir = Number(event.target.dataset.dir);
+	console.dir(dir);
+	let curPage = Number(document.querySelector('#currentPage').textContent);
    	let lastPage;
-   
+   	let renderPage = curPage+dir;
    	let todoList = localStorage.getItem('todo');
+
    	if(todoList){
       	todoList = JSON.parse(todoList);
       	let todoCnt = todoList.length;
@@ -88,35 +91,18 @@ let renderNextPage = () => {
 		alert('todo list를 작성해주세요.')
 		return;
 	}
-   
-   	if(curPage == lastPage){
-      	alert('마지막 페이지 입니다.');
-      	return;
-   	}
-   
-   	let renderPage = curPage+1;
-   	let end = renderPage * 8
-   	let begin = end-8;
-   
-   	renderSchedule(todoList.slice(begin,end));
-   	document.querySelector('#currentPage').textContent = renderPage;
-}
 
-let renderPrevPage = () => {
-   	let curPage = Number(document.querySelector('#currentPage').textContent);
-	
-	if(curPage == 1){
+	if(renderPage == 0){
       	alert('처음 페이지 입니다.');
       	return;
    	}
 
-	let todoList = localStorage.getItem('todo');
-	
-	if(todoList){
-      	todoList = JSON.parse(todoList);
+   	if(curPage == lastPage && dir == 1) {
+      	alert('마지막 페이지 입니다.');
+      	return;
    	}
+	
 
-	let renderPage = curPage-1;
    	let end = renderPage * 8
    	let begin = end-8;
    
@@ -139,11 +125,9 @@ let convertMainDiv = (username) => {
    
 	document.querySelector('.frm_todo').removeEventListener('submit',renderUser);
    	document.querySelector('.frm_todo').addEventListener('submit',registSchedule);
-   	document.querySelector('#leftArrow').addEventListener('click',renderPrevPage);
-   	document.querySelector('#rightArrow').addEventListener('click',renderNextPage);
+   	document.querySelector('#leftArrow').addEventListener('click',renderPagination);
+   	document.querySelector('#rightArrow').addEventListener('click',renderPagination);
 }
-
-
 
 (() => {
    	let username = localStorage.getItem('username');
