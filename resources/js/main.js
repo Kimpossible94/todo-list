@@ -75,40 +75,6 @@ let renderSchedule = (todoList) => {
 
 }
 
-/*let renderPagination = (event) =>{
-	let dir = Number(event.target.dataset.dir);
-	let curPage = Number(document.querySelector('#currentPage').textContent);
-   	let lastPage;
-	let renderPage = curPage+dir;
-   
-   	let todoList = localStorage.getItem('todo');
-
-   	if(todoList){
-      	todoList = JSON.parse(todoList);
-      	let todoCnt = todoList.length;
-      	lastPage = Math.ceil(todoCnt/8);
-   	} else {
-		alert('todo list를 작성해주세요.')
-		return;
-	}
-
-   	if(curPage == lastPage){
-      	alert('마지막 페이지 입니다.');
-      	return;
-   	}
-
-	if(curPage == 1){
-      	alert('처음 페이지 입니다.');
-      	return;
-   	}
-
-   	let end = renderPage * 8
-   	let begin = end-8;
-   
-   	renderSchedule(todoList.slice(begin,end));
-   	document.querySelector('#currentPage').textContent = renderPage;
-}*/
-
 let renderNextPage = () => {
    	let curPage = Number(document.querySelector('#currentPage').textContent);
    	let lastPage;
